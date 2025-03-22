@@ -1,0 +1,1273 @@
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"quadruped.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/quadruped.c"
+  20              		.section	.text.quadHome,"ax",%progbits
+  21              		.align	1
+  22              		.global	quadHome
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	quadHome:
+  28              	.LVL0:
+  29              	.LFB141:
+   1:Core/Src/quadruped.c **** #include "quadruped.h"
+   2:Core/Src/quadruped.c **** #include "argos_parameters.h"
+   3:Core/Src/quadruped.c **** #include "leg.h"
+   4:Core/Src/quadruped.c **** #include "stm32f7xx.h"
+   5:Core/Src/quadruped.c **** #include "stm32f7xx_hal.h"  
+   6:Core/Src/quadruped.c **** 
+   7:Core/Src/quadruped.c **** 
+   8:Core/Src/quadruped.c **** 
+   9:Core/Src/quadruped.c **** 
+  10:Core/Src/quadruped.c **** 
+  11:Core/Src/quadruped.c **** void quadHome(quadruped_t *quad){
+  30              		.loc 1 11 33 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 11 33 is_stmt 0 view .LVU1
+  35 0000 38B5     		push	{r3, r4, r5, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 16
+  38              		.cfi_offset 3, -16
+  39              		.cfi_offset 4, -12
+  40              		.cfi_offset 5, -8
+  41              		.cfi_offset 14, -4
+  42 0002 0546     		mov	r5, r0
+  12:Core/Src/quadruped.c ****     for (int i = 0; i < 4; i++){
+  43              		.loc 1 12 5 is_stmt 1 view .LVU2
+  44              	.LBB2:
+  45              		.loc 1 12 10 view .LVU3
+  46              	.LVL1:
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 2
+
+
+  47              		.loc 1 12 14 is_stmt 0 view .LVU4
+  48 0004 0024     		movs	r4, #0
+  49              		.loc 1 12 5 view .LVU5
+  50 0006 04E0     		b	.L2
+  51              	.LVL2:
+  52              	.L3:
+  13:Core/Src/quadruped.c ****         home(quad->legList[i]); 
+  53              		.loc 1 13 9 is_stmt 1 discriminator 3 view .LVU6
+  54 0008 55F82400 		ldr	r0, [r5, r4, lsl #2]
+  55 000c FFF7FEFF 		bl	home
+  56              	.LVL3:
+  12:Core/Src/quadruped.c ****     for (int i = 0; i < 4; i++){
+  57              		.loc 1 12 29 discriminator 3 view .LVU7
+  58 0010 0134     		adds	r4, r4, #1
+  59              	.LVL4:
+  60              	.L2:
+  12:Core/Src/quadruped.c ****     for (int i = 0; i < 4; i++){
+  61              		.loc 1 12 23 discriminator 1 view .LVU8
+  62 0012 032C     		cmp	r4, #3
+  63 0014 F8DD     		ble	.L3
+  64              	.LBE2:
+  14:Core/Src/quadruped.c ****     }
+  15:Core/Src/quadruped.c **** }
+  65              		.loc 1 15 1 is_stmt 0 view .LVU9
+  66 0016 38BD     		pop	{r3, r4, r5, pc}
+  67              		.loc 1 15 1 view .LVU10
+  68              		.cfi_endproc
+  69              	.LFE141:
+  71              		.section	.text.quadPositionIncrement,"ax",%progbits
+  72              		.align	1
+  73              		.global	quadPositionIncrement
+  74              		.syntax unified
+  75              		.thumb
+  76              		.thumb_func
+  78              	quadPositionIncrement:
+  79              	.LVL5:
+  80              	.LFB143:
+  16:Core/Src/quadruped.c **** 
+  17:Core/Src/quadruped.c **** void quadWalk(quadruped_t *quad, float speed){
+  18:Core/Src/quadruped.c ****     
+  19:Core/Src/quadruped.c ****     for (int i = 0; i < PositionCount ; i++){
+  20:Core/Src/quadruped.c ****     
+  21:Core/Src/quadruped.c ****         //Current leg index:
+  22:Core/Src/quadruped.c ****         int leg_i;
+  23:Core/Src/quadruped.c **** 
+  24:Core/Src/quadruped.c **** 
+  25:Core/Src/quadruped.c ****         //Forward Swing:
+  26:Core/Src/quadruped.c ****         leg_i = 0;
+  27:Core/Src/quadruped.c ****             float x_hip_foot_1 = (stepListX[i] - quad->legList[leg_i]->reflectionMap[3] * quad->leg
+  28:Core/Src/quadruped.c ****             float y_hip_foot_1 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+  29:Core/Src/quadruped.c ****             float z_hip_foot_1 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+  30:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_1, y_hip_foot_1, z_hip_foot_1);
+  31:Core/Src/quadruped.c **** 
+  32:Core/Src/quadruped.c ****         leg_i = 3;
+  33:Core/Src/quadruped.c ****             float x_hip_foot_2 = (stepListX[i] - quad->legList[leg_i]->reflectionMap[3] * quad->leg
+  34:Core/Src/quadruped.c ****             float y_hip_foot_2 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+  35:Core/Src/quadruped.c ****             float z_hip_foot_2 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 3
+
+
+  36:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_2, y_hip_foot_2, z_hip_foot_2);
+  37:Core/Src/quadruped.c **** 
+  38:Core/Src/quadruped.c ****             
+  39:Core/Src/quadruped.c ****         //Return Swing
+  40:Core/Src/quadruped.c ****         leg_i = 1;
+  41:Core/Src/quadruped.c ****             float x_hip_foot_3 = (stepListX[(i + PositionCount/2)%PositionCount]- quad->legList[leg
+  42:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+  43:Core/Src/quadruped.c ****             float z_hip_foot_3 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+  44:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_3, y_hip_foot_3, z_hip_foot_3);
+  45:Core/Src/quadruped.c **** 
+  46:Core/Src/quadruped.c ****         leg_i = 2;
+  47:Core/Src/quadruped.c ****             float x_hip_foot_4 = (stepListX[(i + PositionCount/2)%PositionCount] - quad->legList[le
+  48:Core/Src/quadruped.c ****             float y_hip_foot_4 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+  49:Core/Src/quadruped.c ****             float z_hip_foot_4 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+  50:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_4, y_hip_foot_4, z_hip_foot_4);
+  51:Core/Src/quadruped.c **** 
+  52:Core/Src/quadruped.c ****             
+  53:Core/Src/quadruped.c ****         //Publish Movements
+  54:Core/Src/quadruped.c ****         quadMove(quad);
+  55:Core/Src/quadruped.c **** 
+  56:Core/Src/quadruped.c ****         //Temporary Speed Parameter (Future Work will improve this)
+  57:Core/Src/quadruped.c ****         HAL_Delay(100 * (1-speed));
+  58:Core/Src/quadruped.c ****     }
+  59:Core/Src/quadruped.c **** }
+  60:Core/Src/quadruped.c **** 
+  61:Core/Src/quadruped.c **** 
+  62:Core/Src/quadruped.c **** void quadPositionIncrement(quadruped_t*quad, float dx, float dy, float  dz){
+  81              		.loc 1 62 76 is_stmt 1 view -0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		.loc 1 62 76 is_stmt 0 view .LVU12
+  86 0000 38B5     		push	{r3, r4, r5, lr}
+  87              	.LCFI1:
+  88              		.cfi_def_cfa_offset 16
+  89              		.cfi_offset 3, -16
+  90              		.cfi_offset 4, -12
+  91              		.cfi_offset 5, -8
+  92              		.cfi_offset 14, -4
+  93 0002 2DED048B 		vpush.64	{d8, d9}
+  94              	.LCFI2:
+  95              		.cfi_def_cfa_offset 32
+  96              		.cfi_offset 80, -32
+  97              		.cfi_offset 81, -28
+  98              		.cfi_offset 82, -24
+  99              		.cfi_offset 83, -20
+ 100 0006 0546     		mov	r5, r0
+ 101 0008 B0EE409A 		vmov.f32	s18, s0
+ 102 000c F0EE608A 		vmov.f32	s17, s1
+ 103 0010 B0EE418A 		vmov.f32	s16, s2
+  63:Core/Src/quadruped.c ****     for (int i = 0; i<4; i++){
+ 104              		.loc 1 63 5 is_stmt 1 view .LVU13
+ 105              	.LBB3:
+ 106              		.loc 1 63 10 view .LVU14
+ 107              	.LVL6:
+ 108              		.loc 1 63 14 is_stmt 0 view .LVU15
+ 109 0014 0024     		movs	r4, #0
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 4
+
+
+ 110              		.loc 1 63 5 view .LVU16
+ 111 0016 10E0     		b	.L6
+ 112              	.LVL7:
+ 113              	.L7:
+  64:Core/Src/quadruped.c ****         legPositionIncrement(quad->legList[i], dx, dy,dz, 1000);
+ 114              		.loc 1 64 9 is_stmt 1 discriminator 3 view .LVU17
+ 115 0018 DFED0A1A 		vldr.32	s3, .L9
+ 116 001c B0EE481A 		vmov.f32	s2, s16
+ 117 0020 F0EE680A 		vmov.f32	s1, s17
+ 118 0024 B0EE490A 		vmov.f32	s0, s18
+ 119 0028 55F82400 		ldr	r0, [r5, r4, lsl #2]
+ 120 002c FFF7FEFF 		bl	legPositionIncrement
+ 121              	.LVL8:
+  65:Core/Src/quadruped.c ****         moveLeg(quad->legList[i]);
+ 122              		.loc 1 65 9 discriminator 3 view .LVU18
+ 123 0030 55F82400 		ldr	r0, [r5, r4, lsl #2]
+ 124 0034 FFF7FEFF 		bl	moveLeg
+ 125              	.LVL9:
+  63:Core/Src/quadruped.c ****     for (int i = 0; i<4; i++){
+ 126              		.loc 1 63 27 discriminator 3 view .LVU19
+ 127 0038 0134     		adds	r4, r4, #1
+ 128              	.LVL10:
+ 129              	.L6:
+  63:Core/Src/quadruped.c ****     for (int i = 0; i<4; i++){
+ 130              		.loc 1 63 22 discriminator 1 view .LVU20
+ 131 003a 032C     		cmp	r4, #3
+ 132 003c ECDD     		ble	.L7
+ 133              	.LBE3:
+  66:Core/Src/quadruped.c ****     }
+  67:Core/Src/quadruped.c **** }
+ 134              		.loc 1 67 1 is_stmt 0 view .LVU21
+ 135 003e BDEC048B 		vldm	sp!, {d8-d9}
+ 136              	.LCFI3:
+ 137              		.cfi_restore 82
+ 138              		.cfi_restore 83
+ 139              		.cfi_restore 80
+ 140              		.cfi_restore 81
+ 141              		.cfi_def_cfa_offset 16
+ 142              	.LVL11:
+ 143              		.loc 1 67 1 view .LVU22
+ 144 0042 38BD     		pop	{r3, r4, r5, pc}
+ 145              	.LVL12:
+ 146              	.L10:
+ 147              		.loc 1 67 1 view .LVU23
+ 148              		.align	2
+ 149              	.L9:
+ 150 0044 00007A44 		.word	1148846080
+ 151              		.cfi_endproc
+ 152              	.LFE143:
+ 154              		.global	__aeabi_f2d
+ 155              		.global	__aeabi_dmul
+ 156              		.global	__aeabi_ddiv
+ 157              		.global	__aeabi_d2f
+ 158              		.global	__aeabi_dsub
+ 159              		.global	__aeabi_dadd
+ 160              		.section	.text.quadRPYcontrol,"ax",%progbits
+ 161              		.align	1
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 5
+
+
+ 162              		.global	quadRPYcontrol
+ 163              		.syntax unified
+ 164              		.thumb
+ 165              		.thumb_func
+ 167              	quadRPYcontrol:
+ 168              	.LVL13:
+ 169              	.LFB144:
+  68:Core/Src/quadruped.c **** 
+  69:Core/Src/quadruped.c **** void quadRPYcontrol(quadruped_t *quad, float roll, float pitch, float yaw){
+ 170              		.loc 1 69 75 is_stmt 1 view -0
+ 171              		.cfi_startproc
+ 172              		@ args = 0, pretend = 0, frame = 88
+ 173              		@ frame_needed = 0, uses_anonymous_args = 0
+ 174              		.loc 1 69 75 is_stmt 0 view .LVU25
+ 175 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 176              	.LCFI4:
+ 177              		.cfi_def_cfa_offset 36
+ 178              		.cfi_offset 4, -36
+ 179              		.cfi_offset 5, -32
+ 180              		.cfi_offset 6, -28
+ 181              		.cfi_offset 7, -24
+ 182              		.cfi_offset 8, -20
+ 183              		.cfi_offset 9, -16
+ 184              		.cfi_offset 10, -12
+ 185              		.cfi_offset 11, -8
+ 186              		.cfi_offset 14, -4
+ 187 0004 2DED048B 		vpush.64	{d8, d9}
+ 188              	.LCFI5:
+ 189              		.cfi_def_cfa_offset 52
+ 190              		.cfi_offset 80, -52
+ 191              		.cfi_offset 81, -48
+ 192              		.cfi_offset 82, -44
+ 193              		.cfi_offset 83, -40
+ 194 0008 97B0     		sub	sp, sp, #92
+ 195              	.LCFI6:
+ 196              		.cfi_def_cfa_offset 144
+ 197 000a 8046     		mov	r8, r0
+ 198 000c 10EE100A 		vmov	r0, s0
+ 199              	.LVL14:
+ 200              		.loc 1 69 75 view .LVU26
+ 201 0010 10EE905A 		vmov	r5, s1
+ 202 0014 11EE104A 		vmov	r4, s2
+  70:Core/Src/quadruped.c **** //Roll Pitch Yaw inputs in Degrees; CW+ CCW-
+  71:Core/Src/quadruped.c **** float y = roll * M_PI / 180.0; 
+ 203              		.loc 1 71 1 is_stmt 1 view .LVU27
+ 204              		.loc 1 71 16 is_stmt 0 view .LVU28
+ 205 0018 FFF7FEFF 		bl	__aeabi_f2d
+ 206              	.LVL15:
+ 207              		.loc 1 71 16 view .LVU29
+ 208 001c 16A3     		adr	r3, .L15
+ 209 001e D3E90023 		ldrd	r2, [r3]
+ 210 0022 FFF7FEFF 		bl	__aeabi_dmul
+ 211              	.LVL16:
+ 212              		.loc 1 71 23 view .LVU30
+ 213 0026 0022     		movs	r2, #0
+ 214 0028 154B     		ldr	r3, .L15+8
+ 215 002a FFF7FEFF 		bl	__aeabi_ddiv
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 6
+
+
+ 216              	.LVL17:
+ 217              		.loc 1 71 7 view .LVU31
+ 218 002e FFF7FEFF 		bl	__aeabi_d2f
+ 219              	.LVL18:
+ 220 0032 1490     		str	r0, [sp, #80]	@ float
+ 221              	.LVL19:
+  72:Core/Src/quadruped.c **** float b = pitch * M_PI / 180.0;
+ 222              		.loc 1 72 1 is_stmt 1 view .LVU32
+ 223              		.loc 1 72 17 is_stmt 0 view .LVU33
+ 224 0034 2846     		mov	r0, r5	@ float
+ 225              	.LVL20:
+ 226              		.loc 1 72 17 view .LVU34
+ 227 0036 FFF7FEFF 		bl	__aeabi_f2d
+ 228              	.LVL21:
+ 229 003a 0FA3     		adr	r3, .L15
+ 230 003c D3E90023 		ldrd	r2, [r3]
+ 231 0040 FFF7FEFF 		bl	__aeabi_dmul
+ 232              	.LVL22:
+ 233              		.loc 1 72 24 view .LVU35
+ 234 0044 0022     		movs	r2, #0
+ 235 0046 0E4B     		ldr	r3, .L15+8
+ 236 0048 FFF7FEFF 		bl	__aeabi_ddiv
+ 237              	.LVL23:
+ 238              		.loc 1 72 7 view .LVU36
+ 239 004c FFF7FEFF 		bl	__aeabi_d2f
+ 240              	.LVL24:
+ 241 0050 1590     		str	r0, [sp, #84]	@ float
+ 242              	.LVL25:
+  73:Core/Src/quadruped.c **** float a = yaw * M_PI / 180.0;
+ 243              		.loc 1 73 1 is_stmt 1 view .LVU37
+ 244              		.loc 1 73 15 is_stmt 0 view .LVU38
+ 245 0052 2046     		mov	r0, r4	@ float
+ 246              	.LVL26:
+ 247              		.loc 1 73 15 view .LVU39
+ 248 0054 FFF7FEFF 		bl	__aeabi_f2d
+ 249              	.LVL27:
+ 250 0058 07A3     		adr	r3, .L15
+ 251 005a D3E90023 		ldrd	r2, [r3]
+ 252 005e FFF7FEFF 		bl	__aeabi_dmul
+ 253              	.LVL28:
+ 254              		.loc 1 73 22 view .LVU40
+ 255 0062 0022     		movs	r2, #0
+ 256 0064 064B     		ldr	r3, .L15+8
+ 257 0066 FFF7FEFF 		bl	__aeabi_ddiv
+ 258              	.LVL29:
+ 259              		.loc 1 73 7 view .LVU41
+ 260 006a FFF7FEFF 		bl	__aeabi_d2f
+ 261              	.LVL30:
+  74:Core/Src/quadruped.c **** 
+  75:Core/Src/quadruped.c **** for (int i = 0; i< 4; i++){
+ 262              		.loc 1 75 1 is_stmt 1 view .LVU42
+ 263              	.LBB4:
+ 264              		.loc 1 75 6 view .LVU43
+ 265              		.loc 1 75 10 is_stmt 0 view .LVU44
+ 266 006e 4FF0000B 		mov	fp, #0
+ 267 0072 0546     		mov	r5, r0	@ float
+ 268              	.LVL31:
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 7
+
+
+ 269              		.loc 1 75 1 view .LVU45
+ 270 0074 72E1     		b	.L12
+ 271              	.L16:
+ 272 0076 00BF     		.align	3
+ 273              	.L15:
+ 274 0078 182D4454 		.word	1413754136
+ 275 007c FB210940 		.word	1074340347
+ 276 0080 00806640 		.word	1080459264
+ 277              	.LVL32:
+ 278              	.L13:
+ 279              	.LBB5:
+  76:Core/Src/quadruped.c ****     //Calculate Torso -> Hip Position
+  77:Core/Src/quadruped.c ****         float x_hip_rotated = quad->legList[i]->d_torso_hip[0] * (cos(a) * cos(b)) - quad->legList[
+ 280              		.loc 1 77 9 is_stmt 1 discriminator 3 view .LVU46
+ 281              		.loc 1 77 44 is_stmt 0 discriminator 3 view .LVU47
+ 282 0084 58F82B40 		ldr	r4, [r8, fp, lsl #2]
+ 283              		.loc 1 77 60 discriminator 3 view .LVU48
+ 284 0088 606A     		ldr	r0, [r4, #36]	@ float
+ 285 008a FFF7FEFF 		bl	__aeabi_f2d
+ 286              	.LVL33:
+ 287 008e CDE90001 		strd	r0, [sp]
+ 288              		.loc 1 77 67 discriminator 3 view .LVU49
+ 289 0092 2846     		mov	r0, r5	@ float
+ 290 0094 FFF7FEFF 		bl	__aeabi_f2d
+ 291              	.LVL34:
+ 292 0098 41EC180B 		vmov	d8, r0, r1
+ 293 009c B0EE480A 		vmov.f32	s0, s16
+ 294 00a0 F0EE680A 		vmov.f32	s1, s17
+ 295 00a4 FFF7FEFF 		bl	cos
+ 296              	.LVL35:
+ 297 00a8 57EC106B 		vmov	r6, r7, d0
+ 298              		.loc 1 77 76 discriminator 3 view .LVU50
+ 299 00ac 1598     		ldr	r0, [sp, #84]	@ float
+ 300 00ae FFF7FEFF 		bl	__aeabi_f2d
+ 301              	.LVL36:
+ 302 00b2 41EC190B 		vmov	d9, r0, r1
+ 303 00b6 B0EE490A 		vmov.f32	s0, s18
+ 304 00ba F0EE690A 		vmov.f32	s1, s19
+ 305 00be FFF7FEFF 		bl	cos
+ 306              	.LVL37:
+ 307 00c2 5AEC109B 		vmov	r9, r10, d0
+ 308              		.loc 1 77 74 discriminator 3 view .LVU51
+ 309 00c6 4A46     		mov	r2, r9
+ 310 00c8 5346     		mov	r3, r10
+ 311 00ca CDE90267 		strd	r6, [sp, #8]
+ 312 00ce 3046     		mov	r0, r6
+ 313 00d0 3946     		mov	r1, r7
+ 314 00d2 FFF7FEFF 		bl	__aeabi_dmul
+ 315              	.LVL38:
+ 316 00d6 0246     		mov	r2, r0
+ 317 00d8 0B46     		mov	r3, r1
+ 318              		.loc 1 77 64 discriminator 3 view .LVU52
+ 319 00da DDE90001 		ldrd	r0, [sp]
+ 320 00de FFF7FEFF 		bl	__aeabi_dmul
+ 321              	.LVL39:
+ 322 00e2 0646     		mov	r6, r0
+ 323 00e4 0F46     		mov	r7, r1
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 8
+
+
+ 324              		.loc 1 77 115 discriminator 3 view .LVU53
+ 325 00e6 A06A     		ldr	r0, [r4, #40]	@ float
+ 326 00e8 FFF7FEFF 		bl	__aeabi_f2d
+ 327              	.LVL40:
+ 328 00ec CDE90401 		strd	r0, [sp, #16]
+ 329              		.loc 1 77 122 discriminator 3 view .LVU54
+ 330 00f0 B0EE490A 		vmov.f32	s0, s18
+ 331 00f4 F0EE690A 		vmov.f32	s1, s19
+ 332 00f8 FFF7FEFF 		bl	sin
+ 333              	.LVL41:
+ 334 00fc 53EC102B 		vmov	r2, r3, d0
+ 335              		.loc 1 77 119 discriminator 3 view .LVU55
+ 336 0100 8DED0E0B 		vstr.64	d0, [sp, #56]
+ 337 0104 DDE90401 		ldrd	r0, [sp, #16]
+ 338 0108 FFF7FEFF 		bl	__aeabi_dmul
+ 339              	.LVL42:
+ 340 010c 0246     		mov	r2, r0
+ 341 010e 0B46     		mov	r3, r1
+ 342              		.loc 1 77 84 discriminator 3 view .LVU56
+ 343 0110 3046     		mov	r0, r6
+ 344 0112 3946     		mov	r1, r7
+ 345 0114 FFF7FEFF 		bl	__aeabi_dsub
+ 346              	.LVL43:
+ 347 0118 0646     		mov	r6, r0
+ 348 011a 0F46     		mov	r7, r1
+ 349              		.loc 1 77 161 discriminator 3 view .LVU57
+ 350 011c E06A     		ldr	r0, [r4, #44]	@ float
+ 351 011e FFF7FEFF 		bl	__aeabi_f2d
+ 352              	.LVL44:
+ 353 0122 CDE90601 		strd	r0, [sp, #24]
+ 354              		.loc 1 77 177 discriminator 3 view .LVU58
+ 355 0126 B0EE480A 		vmov.f32	s0, s16
+ 356 012a F0EE680A 		vmov.f32	s1, s17
+ 357 012e FFF7FEFF 		bl	sin
+ 358              	.LVL45:
+ 359 0132 53EC102B 		vmov	r2, r3, d0
+ 360              		.loc 1 77 175 discriminator 3 view .LVU59
+ 361 0136 8DED080B 		vstr.64	d0, [sp, #32]
+ 362 013a CDE90C9A 		strd	r9, [sp, #48]
+ 363 013e 4846     		mov	r0, r9
+ 364 0140 5146     		mov	r1, r10
+ 365 0142 FFF7FEFF 		bl	__aeabi_dmul
+ 366              	.LVL46:
+ 367 0146 0246     		mov	r2, r0
+ 368 0148 0B46     		mov	r3, r1
+ 369              		.loc 1 77 165 discriminator 3 view .LVU60
+ 370 014a DDE90601 		ldrd	r0, [sp, #24]
+ 371 014e FFF7FEFF 		bl	__aeabi_dmul
+ 372              	.LVL47:
+ 373 0152 0246     		mov	r2, r0
+ 374 0154 0B46     		mov	r3, r1
+ 375              		.loc 1 77 130 discriminator 3 view .LVU61
+ 376 0156 3046     		mov	r0, r6
+ 377 0158 3946     		mov	r1, r7
+ 378 015a FFF7FEFF 		bl	__aeabi_dadd
+ 379              	.LVL48:
+ 380              		.loc 1 77 15 discriminator 3 view .LVU62
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 9
+
+
+ 381 015e FFF7FEFF 		bl	__aeabi_d2f
+ 382              	.LVL49:
+ 383 0162 09EE100A 		vmov	s18, r0
+ 384              	.LVL50:
+  78:Core/Src/quadruped.c ****         float y_hip_rotated = quad->legList[i]->d_torso_hip[0] * (sin(a)*sin(y) + cos(a)*sin(b)*cos
+ 385              		.loc 1 78 9 is_stmt 1 discriminator 3 view .LVU63
+ 386              		.loc 1 78 74 is_stmt 0 discriminator 3 view .LVU64
+ 387 0166 1498     		ldr	r0, [sp, #80]	@ float
+ 388              	.LVL51:
+ 389              		.loc 1 78 74 discriminator 3 view .LVU65
+ 390 0168 FFF7FEFF 		bl	__aeabi_f2d
+ 391              	.LVL52:
+ 392 016c 41EC180B 		vmov	d8, r0, r1
+ 393 0170 B0EE480A 		vmov.f32	s0, s16
+ 394 0174 F0EE680A 		vmov.f32	s1, s17
+ 395 0178 FFF7FEFF 		bl	sin
+ 396              	.LVL53:
+ 397 017c 5AEC109B 		vmov	r9, r10, d0
+ 398              		.loc 1 78 73 discriminator 3 view .LVU66
+ 399 0180 8DED0A0B 		vstr.64	d0, [sp, #40]
+ 400 0184 4A46     		mov	r2, r9
+ 401 0186 5346     		mov	r3, r10
+ 402 0188 DDE90801 		ldrd	r0, [sp, #32]
+ 403 018c FFF7FEFF 		bl	__aeabi_dmul
+ 404              	.LVL54:
+ 405 0190 0646     		mov	r6, r0
+ 406 0192 0F46     		mov	r7, r1
+ 407              		.loc 1 78 89 discriminator 3 view .LVU67
+ 408 0194 DDE90E23 		ldrd	r2, [sp, #56]
+ 409 0198 DDE90201 		ldrd	r0, [sp, #8]
+ 410 019c FFF7FEFF 		bl	__aeabi_dmul
+ 411              	.LVL55:
+ 412 01a0 CDE91001 		strd	r0, [sp, #64]
+ 413              		.loc 1 78 97 discriminator 3 view .LVU68
+ 414 01a4 B0EE480A 		vmov.f32	s0, s16
+ 415 01a8 F0EE680A 		vmov.f32	s1, s17
+ 416 01ac FFF7FEFF 		bl	cos
+ 417              	.LVL56:
+ 418 01b0 5AEC109B 		vmov	r9, r10, d0
+ 419              		.loc 1 78 96 discriminator 3 view .LVU69
+ 420 01b4 4A46     		mov	r2, r9
+ 421 01b6 5346     		mov	r3, r10
+ 422 01b8 DDE91001 		ldrd	r0, [sp, #64]
+ 423 01bc FFF7FEFF 		bl	__aeabi_dmul
+ 424              	.LVL57:
+ 425 01c0 0246     		mov	r2, r0
+ 426 01c2 0B46     		mov	r3, r1
+ 427              		.loc 1 78 81 discriminator 3 view .LVU70
+ 428 01c4 3046     		mov	r0, r6
+ 429 01c6 3946     		mov	r1, r7
+ 430 01c8 FFF7FEFF 		bl	__aeabi_dadd
+ 431              	.LVL58:
+ 432 01cc 0246     		mov	r2, r0
+ 433 01ce 0B46     		mov	r3, r1
+ 434              		.loc 1 78 64 discriminator 3 view .LVU71
+ 435 01d0 DDE90001 		ldrd	r0, [sp]
+ 436 01d4 FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 10
+
+
+ 437              	.LVL59:
+ 438 01d8 CDE91201 		strd	r0, [sp, #72]
+ 439              		.loc 1 78 149 discriminator 3 view .LVU72
+ 440 01dc DDE90A23 		ldrd	r2, [sp, #40]
+ 441 01e0 DDE90201 		ldrd	r0, [sp, #8]
+ 442 01e4 FFF7FEFF 		bl	__aeabi_dmul
+ 443              	.LVL60:
+ 444 01e8 0646     		mov	r6, r0
+ 445 01ea 0F46     		mov	r7, r1
+ 446              		.loc 1 78 165 discriminator 3 view .LVU73
+ 447 01ec DDE90823 		ldrd	r2, [sp, #32]
+ 448 01f0 DDE90E01 		ldrd	r0, [sp, #56]
+ 449 01f4 FFF7FEFF 		bl	__aeabi_dmul
+ 450              	.LVL61:
+ 451 01f8 0A46     		mov	r2, r1
+ 452 01fa 0146     		mov	r1, r0
+ 453              		.loc 1 78 172 discriminator 3 view .LVU74
+ 454 01fc CDE90E12 		strd	r1, [sp, #56]
+ 455 0200 1346     		mov	r3, r2
+ 456 0202 0246     		mov	r2, r0
+ 457 0204 4846     		mov	r0, r9
+ 458 0206 5146     		mov	r1, r10
+ 459 0208 FFF7FEFF 		bl	__aeabi_dmul
+ 460              	.LVL62:
+ 461 020c 0246     		mov	r2, r0
+ 462 020e 0B46     		mov	r3, r1
+ 463              		.loc 1 78 157 discriminator 3 view .LVU75
+ 464 0210 3046     		mov	r0, r6
+ 465 0212 3946     		mov	r1, r7
+ 466 0214 FFF7FEFF 		bl	__aeabi_dsub
+ 467              	.LVL63:
+ 468 0218 0246     		mov	r2, r0
+ 469 021a 0B46     		mov	r3, r1
+ 470              		.loc 1 78 140 discriminator 3 view .LVU76
+ 471 021c DDE90601 		ldrd	r0, [sp, #24]
+ 472 0220 FFF7FEFF 		bl	__aeabi_dmul
+ 473              	.LVL64:
+ 474 0224 0246     		mov	r2, r0
+ 475 0226 0B46     		mov	r3, r1
+ 476              		.loc 1 78 105 discriminator 3 view .LVU77
+ 477 0228 DDE91201 		ldrd	r0, [sp, #72]
+ 478 022c FFF7FEFF 		bl	__aeabi_dsub
+ 479              	.LVL65:
+ 480 0230 0646     		mov	r6, r0
+ 481 0232 0F46     		mov	r7, r1
+ 482              		.loc 1 78 226 discriminator 3 view .LVU78
+ 483 0234 4A46     		mov	r2, r9
+ 484 0236 5346     		mov	r3, r10
+ 485 0238 DDE90C01 		ldrd	r0, [sp, #48]
+ 486 023c FFF7FEFF 		bl	__aeabi_dmul
+ 487              	.LVL66:
+ 488 0240 0246     		mov	r2, r0
+ 489 0242 0B46     		mov	r3, r1
+ 490              		.loc 1 78 216 discriminator 3 view .LVU79
+ 491 0244 DDE90401 		ldrd	r0, [sp, #16]
+ 492 0248 FFF7FEFF 		bl	__aeabi_dmul
+ 493              	.LVL67:
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 11
+
+
+ 494 024c 0246     		mov	r2, r0
+ 495 024e 0B46     		mov	r3, r1
+ 496              		.loc 1 78 181 discriminator 3 view .LVU80
+ 497 0250 3046     		mov	r0, r6
+ 498 0252 3946     		mov	r1, r7
+ 499 0254 FFF7FEFF 		bl	__aeabi_dadd
+ 500              	.LVL68:
+ 501              		.loc 1 78 15 discriminator 3 view .LVU81
+ 502 0258 FFF7FEFF 		bl	__aeabi_d2f
+ 503              	.LVL69:
+ 504 025c 08EE100A 		vmov	s16, r0
+ 505              	.LVL70:
+  79:Core/Src/quadruped.c ****         float z_hip_rotated = quad->legList[i]->d_torso_hip[2] * (cos(a)*cos(y) + sin(a) * sin(b) *
+ 506              		.loc 1 79 9 is_stmt 1 discriminator 3 view .LVU82
+ 507              		.loc 1 79 73 is_stmt 0 discriminator 3 view .LVU83
+ 508 0260 4A46     		mov	r2, r9
+ 509 0262 5346     		mov	r3, r10
+ 510 0264 DDE90201 		ldrd	r0, [sp, #8]
+ 511              	.LVL71:
+ 512              		.loc 1 79 73 discriminator 3 view .LVU84
+ 513 0268 FFF7FEFF 		bl	__aeabi_dmul
+ 514              	.LVL72:
+ 515 026c 0646     		mov	r6, r0
+ 516 026e 0F46     		mov	r7, r1
+ 517              		.loc 1 79 99 discriminator 3 view .LVU85
+ 518 0270 DDE90E23 		ldrd	r2, [sp, #56]
+ 519 0274 DDE90A01 		ldrd	r0, [sp, #40]
+ 520 0278 FFF7FEFF 		bl	__aeabi_dmul
+ 521              	.LVL73:
+ 522 027c 0246     		mov	r2, r0
+ 523 027e 0B46     		mov	r3, r1
+ 524              		.loc 1 79 81 discriminator 3 view .LVU86
+ 525 0280 3046     		mov	r0, r6
+ 526 0282 3946     		mov	r1, r7
+ 527 0284 FFF7FEFF 		bl	__aeabi_dadd
+ 528              	.LVL74:
+ 529 0288 0246     		mov	r2, r0
+ 530 028a 0B46     		mov	r3, r1
+ 531              		.loc 1 79 64 discriminator 3 view .LVU87
+ 532 028c DDE90601 		ldrd	r0, [sp, #24]
+ 533 0290 FFF7FEFF 		bl	__aeabi_dmul
+ 534              	.LVL75:
+ 535 0294 CDE90201 		strd	r0, [sp, #8]
+ 536              		.loc 1 79 154 discriminator 3 view .LVU88
+ 537 0298 4A46     		mov	r2, r9
+ 538 029a 5346     		mov	r3, r10
+ 539 029c DDE90801 		ldrd	r0, [sp, #32]
+ 540 02a0 FFF7FEFF 		bl	__aeabi_dmul
+ 541              	.LVL76:
+ 542 02a4 0646     		mov	r6, r0
+ 543 02a6 0F46     		mov	r7, r1
+ 544              		.loc 1 79 181 discriminator 3 view .LVU89
+ 545 02a8 DDE91023 		ldrd	r2, [sp, #64]
+ 546 02ac DDE90A9A 		ldrd	r9, [sp, #40]
+ 547 02b0 4846     		mov	r0, r9
+ 548 02b2 5146     		mov	r1, r10
+ 549 02b4 FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 12
+
+
+ 550              	.LVL77:
+ 551 02b8 0246     		mov	r2, r0
+ 552 02ba 0B46     		mov	r3, r1
+ 553              		.loc 1 79 163 discriminator 3 view .LVU90
+ 554 02bc 3046     		mov	r0, r6
+ 555 02be 3946     		mov	r1, r7
+ 556 02c0 FFF7FEFF 		bl	__aeabi_dsub
+ 557              	.LVL78:
+ 558 02c4 0246     		mov	r2, r0
+ 559 02c6 0B46     		mov	r3, r1
+ 560              		.loc 1 79 144 discriminator 3 view .LVU91
+ 561 02c8 DDE90001 		ldrd	r0, [sp]
+ 562 02cc FFF7FEFF 		bl	__aeabi_dmul
+ 563              	.LVL79:
+ 564 02d0 0246     		mov	r2, r0
+ 565 02d2 0B46     		mov	r3, r1
+ 566              		.loc 1 79 109 discriminator 3 view .LVU92
+ 567 02d4 DDE90201 		ldrd	r0, [sp, #8]
+ 568 02d8 FFF7FEFF 		bl	__aeabi_dsub
+ 569              	.LVL80:
+ 570 02dc 0646     		mov	r6, r0
+ 571 02de 0F46     		mov	r7, r1
+ 572              		.loc 1 79 236 discriminator 3 view .LVU93
+ 573 02e0 4A46     		mov	r2, r9
+ 574 02e2 5346     		mov	r3, r10
+ 575 02e4 DDE90C01 		ldrd	r0, [sp, #48]
+ 576 02e8 FFF7FEFF 		bl	__aeabi_dmul
+ 577              	.LVL81:
+ 578 02ec 0246     		mov	r2, r0
+ 579 02ee 0B46     		mov	r3, r1
+ 580              		.loc 1 79 226 discriminator 3 view .LVU94
+ 581 02f0 DDE90401 		ldrd	r0, [sp, #16]
+ 582 02f4 FFF7FEFF 		bl	__aeabi_dmul
+ 583              	.LVL82:
+ 584 02f8 0246     		mov	r2, r0
+ 585 02fa 0B46     		mov	r3, r1
+ 586              		.loc 1 79 191 discriminator 3 view .LVU95
+ 587 02fc 3046     		mov	r0, r6
+ 588 02fe 3946     		mov	r1, r7
+ 589 0300 FFF7FEFF 		bl	__aeabi_dadd
+ 590              	.LVL83:
+ 591              		.loc 1 79 15 discriminator 3 view .LVU96
+ 592 0304 FFF7FEFF 		bl	__aeabi_d2f
+ 593              	.LVL84:
+ 594 0308 07EE100A 		vmov	s14, r0
+ 595              	.LVL85:
+  80:Core/Src/quadruped.c **** 
+  81:Core/Src/quadruped.c ****     //Calculate FINAL Hip - > Foot Position
+  82:Core/Src/quadruped.c ****         float x_hip_foot = quad->legList[i]->reflectionMap[3] * (quad->legList[i]->d_torso_foot[0] 
+ 596              		.loc 1 82 9 is_stmt 1 discriminator 3 view .LVU97
+ 597              		.loc 1 82 63 is_stmt 0 discriminator 3 view .LVU98
+ 598 030c D4ED067A 		vldr.32	s15, [r4, #24]	@ int
+ 599 0310 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 600              		.loc 1 82 96 discriminator 3 view .LVU99
+ 601 0314 D4ED0C7A 		vldr.32	s15, [r4, #48]
+ 602              		.loc 1 82 100 discriminator 3 view .LVU100
+ 603 0318 77EEC97A 		vsub.f32	s15, s15, s18
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 13
+
+
+ 604              		.loc 1 82 15 discriminator 3 view .LVU101
+ 605 031c 20EE270A 		vmul.f32	s0, s0, s15
+ 606              	.LVL86:
+  83:Core/Src/quadruped.c ****         float y_hip_foot = quad->legList[i]->d_torso_foot[1] - y_hip_rotated;
+ 607              		.loc 1 83 9 is_stmt 1 discriminator 3 view .LVU102
+ 608              		.loc 1 83 58 is_stmt 0 discriminator 3 view .LVU103
+ 609 0320 D4ED0D0A 		vldr.32	s1, [r4, #52]
+ 610              		.loc 1 83 15 discriminator 3 view .LVU104
+ 611 0324 70EEC80A 		vsub.f32	s1, s1, s16
+ 612              	.LVL87:
+  84:Core/Src/quadruped.c ****         float z_hip_foot = quad->legList[i]->reflectionMap[5] * (quad->legList[i]->d_torso_foot[2] 
+ 613              		.loc 1 84 9 is_stmt 1 discriminator 3 view .LVU105
+ 614              		.loc 1 84 63 is_stmt 0 discriminator 3 view .LVU106
+ 615 0328 D4ED087A 		vldr.32	s15, [r4, #32]	@ int
+ 616 032c B8EEE71A 		vcvt.f32.s32	s2, s15
+ 617              		.loc 1 84 96 discriminator 3 view .LVU107
+ 618 0330 D4ED0E7A 		vldr.32	s15, [r4, #56]
+ 619              		.loc 1 84 100 discriminator 3 view .LVU108
+ 620 0334 77EEC77A 		vsub.f32	s15, s15, s14
+ 621              		.loc 1 84 15 discriminator 3 view .LVU109
+ 622 0338 21EE271A 		vmul.f32	s2, s2, s15
+ 623              	.LVL88:
+  85:Core/Src/quadruped.c **** 
+  86:Core/Src/quadruped.c ****     //Set Position
+  87:Core/Src/quadruped.c ****         quad->legList[i]->x =  x_hip_foot;
+ 624              		.loc 1 87 9 is_stmt 1 discriminator 3 view .LVU110
+ 625              		.loc 1 87 29 is_stmt 0 discriminator 3 view .LVU111
+ 626 033c 84ED0F0A 		vstr.32	s0, [r4, #60]
+  88:Core/Src/quadruped.c ****         quad->legList[i]->y =  y_hip_foot;
+ 627              		.loc 1 88 9 is_stmt 1 discriminator 3 view .LVU112
+ 628              		.loc 1 88 22 is_stmt 0 discriminator 3 view .LVU113
+ 629 0340 58F82B30 		ldr	r3, [r8, fp, lsl #2]
+ 630              		.loc 1 88 29 discriminator 3 view .LVU114
+ 631 0344 C3ED100A 		vstr.32	s1, [r3, #64]
+  89:Core/Src/quadruped.c ****         quad->legList[i]->z =  z_hip_foot;
+ 632              		.loc 1 89 9 is_stmt 1 discriminator 3 view .LVU115
+ 633              		.loc 1 89 22 is_stmt 0 discriminator 3 view .LVU116
+ 634 0348 58F82B30 		ldr	r3, [r8, fp, lsl #2]
+ 635              		.loc 1 89 29 discriminator 3 view .LVU117
+ 636 034c 83ED111A 		vstr.32	s2, [r3, #68]
+  90:Core/Src/quadruped.c **** 
+  91:Core/Src/quadruped.c ****     //Calculate Angles
+  92:Core/Src/quadruped.c ****         IK(quad->legList[i], x_hip_foot, y_hip_foot, z_hip_foot);
+ 637              		.loc 1 92 9 is_stmt 1 discriminator 3 view .LVU118
+ 638 0350 58F82B00 		ldr	r0, [r8, fp, lsl #2]
+ 639              	.LVL89:
+ 640              		.loc 1 92 9 is_stmt 0 discriminator 3 view .LVU119
+ 641 0354 FFF7FEFF 		bl	IK
+ 642              	.LVL90:
+ 643              		.loc 1 92 9 discriminator 3 view .LVU120
+ 644              	.LBE5:
+  75:Core/Src/quadruped.c ****     //Calculate Torso -> Hip Position
+ 645              		.loc 1 75 24 is_stmt 1 discriminator 3 view .LVU121
+ 646 0358 0BF1010B 		add	fp, fp, #1
+ 647              	.LVL91:
+ 648              	.L12:
+  75:Core/Src/quadruped.c ****     //Calculate Torso -> Hip Position
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 14
+
+
+ 649              		.loc 1 75 18 discriminator 1 view .LVU122
+ 650 035c BBF1030F 		cmp	fp, #3
+ 651 0360 7FF790AE 		ble	.L13
+ 652              	.LBE4:
+  93:Core/Src/quadruped.c ****     }
+  94:Core/Src/quadruped.c **** }
+ 653              		.loc 1 94 1 is_stmt 0 view .LVU123
+ 654 0364 17B0     		add	sp, sp, #92
+ 655              	.LCFI7:
+ 656              		.cfi_def_cfa_offset 52
+ 657              		@ sp needed
+ 658 0366 BDEC048B 		vldm	sp!, {d8-d9}
+ 659              	.LCFI8:
+ 660              		.cfi_restore 82
+ 661              		.cfi_restore 83
+ 662              		.cfi_restore 80
+ 663              		.cfi_restore 81
+ 664              		.cfi_def_cfa_offset 36
+ 665 036a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 666              		.loc 1 94 1 view .LVU124
+ 667              		.cfi_endproc
+ 668              	.LFE144:
+ 670 036e 00BF     		.section	.text.quadMove,"ax",%progbits
+ 671              		.align	1
+ 672              		.global	quadMove
+ 673              		.syntax unified
+ 674              		.thumb
+ 675              		.thumb_func
+ 677              	quadMove:
+ 678              	.LVL92:
+ 679              	.LFB145:
+  95:Core/Src/quadruped.c **** 
+  96:Core/Src/quadruped.c **** void quadMove(quadruped_t *quad){
+ 680              		.loc 1 96 33 is_stmt 1 view -0
+ 681              		.cfi_startproc
+ 682              		@ args = 0, pretend = 0, frame = 0
+ 683              		@ frame_needed = 0, uses_anonymous_args = 0
+ 684              		.loc 1 96 33 is_stmt 0 view .LVU126
+ 685 0000 38B5     		push	{r3, r4, r5, lr}
+ 686              	.LCFI9:
+ 687              		.cfi_def_cfa_offset 16
+ 688              		.cfi_offset 3, -16
+ 689              		.cfi_offset 4, -12
+ 690              		.cfi_offset 5, -8
+ 691              		.cfi_offset 14, -4
+ 692 0002 0546     		mov	r5, r0
+  97:Core/Src/quadruped.c ****     for (int i = 0; i< 4; i++){
+ 693              		.loc 1 97 5 is_stmt 1 view .LVU127
+ 694              	.LBB6:
+ 695              		.loc 1 97 10 view .LVU128
+ 696              	.LVL93:
+ 697              		.loc 1 97 14 is_stmt 0 view .LVU129
+ 698 0004 0024     		movs	r4, #0
+ 699              		.loc 1 97 5 view .LVU130
+ 700 0006 04E0     		b	.L18
+ 701              	.LVL94:
+ 702              	.L19:
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 15
+
+
+  98:Core/Src/quadruped.c ****         moveLeg(quad->legList[i]);
+ 703              		.loc 1 98 9 is_stmt 1 discriminator 3 view .LVU131
+ 704 0008 55F82400 		ldr	r0, [r5, r4, lsl #2]
+ 705 000c FFF7FEFF 		bl	moveLeg
+ 706              	.LVL95:
+  97:Core/Src/quadruped.c ****     for (int i = 0; i< 4; i++){
+ 707              		.loc 1 97 28 discriminator 3 view .LVU132
+ 708 0010 0134     		adds	r4, r4, #1
+ 709              	.LVL96:
+ 710              	.L18:
+  97:Core/Src/quadruped.c ****     for (int i = 0; i< 4; i++){
+ 711              		.loc 1 97 22 discriminator 1 view .LVU133
+ 712 0012 032C     		cmp	r4, #3
+ 713 0014 F8DD     		ble	.L19
+ 714              	.LBE6:
+  99:Core/Src/quadruped.c ****     }
+ 100:Core/Src/quadruped.c **** }
+ 715              		.loc 1 100 1 is_stmt 0 view .LVU134
+ 716 0016 38BD     		pop	{r3, r4, r5, pc}
+ 717              		.loc 1 100 1 view .LVU135
+ 718              		.cfi_endproc
+ 719              	.LFE145:
+ 721              		.section	.text.quadWalk,"ax",%progbits
+ 722              		.align	1
+ 723              		.global	quadWalk
+ 724              		.syntax unified
+ 725              		.thumb
+ 726              		.thumb_func
+ 728              	quadWalk:
+ 729              	.LVL97:
+ 730              	.LFB142:
+  17:Core/Src/quadruped.c ****     
+ 731              		.loc 1 17 46 is_stmt 1 view -0
+ 732              		.cfi_startproc
+ 733              		@ args = 0, pretend = 0, frame = 0
+ 734              		@ frame_needed = 0, uses_anonymous_args = 0
+  17:Core/Src/quadruped.c ****     
+ 735              		.loc 1 17 46 is_stmt 0 view .LVU137
+ 736 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 737              	.LCFI10:
+ 738              		.cfi_def_cfa_offset 24
+ 739              		.cfi_offset 4, -24
+ 740              		.cfi_offset 5, -20
+ 741              		.cfi_offset 6, -16
+ 742              		.cfi_offset 7, -12
+ 743              		.cfi_offset 8, -8
+ 744              		.cfi_offset 14, -4
+ 745 0004 2DED048B 		vpush.64	{d8, d9}
+ 746              	.LCFI11:
+ 747              		.cfi_def_cfa_offset 40
+ 748              		.cfi_offset 80, -40
+ 749              		.cfi_offset 81, -36
+ 750              		.cfi_offset 82, -32
+ 751              		.cfi_offset 83, -28
+ 752 0008 0546     		mov	r5, r0
+ 753 000a B0EE408A 		vmov.f32	s16, s0
+  19:Core/Src/quadruped.c ****     
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 16
+
+
+ 754              		.loc 1 19 5 is_stmt 1 view .LVU138
+ 755              	.LBB7:
+  19:Core/Src/quadruped.c ****     
+ 756              		.loc 1 19 10 view .LVU139
+ 757              	.LVL98:
+  19:Core/Src/quadruped.c ****     
+ 758              		.loc 1 19 14 is_stmt 0 view .LVU140
+ 759 000e 0024     		movs	r4, #0
+  19:Core/Src/quadruped.c ****     
+ 760              		.loc 1 19 5 view .LVU141
+ 761 0010 A4E0     		b	.L22
+ 762              	.LVL99:
+ 763              	.L23:
+ 764              	.LBB8:
+  22:Core/Src/quadruped.c **** 
+ 765              		.loc 1 22 9 is_stmt 1 discriminator 3 view .LVU142
+  26:Core/Src/quadruped.c ****             float x_hip_foot_1 = (stepListX[i] - quad->legList[leg_i]->reflectionMap[3] * quad->leg
+ 766              		.loc 1 26 9 discriminator 3 view .LVU143
+  27:Core/Src/quadruped.c ****             float y_hip_foot_1 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 767              		.loc 1 27 13 discriminator 3 view .LVU144
+  27:Core/Src/quadruped.c ****             float y_hip_foot_1 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 768              		.loc 1 27 44 is_stmt 0 discriminator 3 view .LVU145
+ 769 0012 DFF86881 		ldr	r8, .L25+16
+ 770 0016 08EB8403 		add	r3, r8, r4, lsl #2
+ 771 001a D3ED008A 		vldr.32	s17, [r3]
+  27:Core/Src/quadruped.c ****             float y_hip_foot_1 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 772              		.loc 1 27 63 discriminator 3 view .LVU146
+ 773 001e 2868     		ldr	r0, [r5]
+  27:Core/Src/quadruped.c ****             float y_hip_foot_1 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 774              		.loc 1 27 124 discriminator 3 view .LVU147
+ 775 0020 D0ED097A 		vldr.32	s15, [r0, #36]
+  27:Core/Src/quadruped.c ****             float y_hip_foot_1 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 776              		.loc 1 27 89 discriminator 3 view .LVU148
+ 777 0024 90ED067A 		vldr.32	s14, [r0, #24]	@ int
+ 778 0028 B8EEC70A 		vcvt.f32.s32	s0, s14
+ 779 002c 20EE270A 		vmul.f32	s0, s0, s15
+ 780              	.LVL100:
+  28:Core/Src/quadruped.c ****             float z_hip_foot_1 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+ 781              		.loc 1 28 13 is_stmt 1 discriminator 3 view .LVU149
+  28:Core/Src/quadruped.c ****             float z_hip_foot_1 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+ 782              		.loc 1 28 43 is_stmt 0 discriminator 3 view .LVU150
+ 783 0030 4E4F     		ldr	r7, .L25
+ 784 0032 07EB8403 		add	r3, r7, r4, lsl #2
+ 785 0036 93ED009A 		vldr.32	s18, [r3]
+  28:Core/Src/quadruped.c ****             float z_hip_foot_1 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+ 786              		.loc 1 28 82 discriminator 3 view .LVU151
+ 787 003a D0ED0A0A 		vldr.32	s1, [r0, #40]
+ 788              	.LVL101:
+  29:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_1, y_hip_foot_1, z_hip_foot_1);
+ 789              		.loc 1 29 13 is_stmt 1 discriminator 3 view .LVU152
+  29:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_1, y_hip_foot_1, z_hip_foot_1);
+ 790              		.loc 1 29 45 is_stmt 0 discriminator 3 view .LVU153
+ 791 003e 4C4E     		ldr	r6, .L25+4
+ 792 0040 06EB8403 		add	r3, r6, r4, lsl #2
+ 793 0044 D3ED009A 		vldr.32	s19, [r3]
+  29:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_1, y_hip_foot_1, z_hip_foot_1);
+ 794              		.loc 1 29 125 discriminator 3 view .LVU154
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 17
+
+
+ 795 0048 D0ED0B7A 		vldr.32	s15, [r0, #44]
+  29:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_1, y_hip_foot_1, z_hip_foot_1);
+ 796              		.loc 1 29 90 discriminator 3 view .LVU155
+ 797 004c 90ED087A 		vldr.32	s14, [r0, #32]	@ int
+ 798 0050 B8EEC71A 		vcvt.f32.s32	s2, s14
+ 799 0054 21EE271A 		vmul.f32	s2, s2, s15
+ 800              	.LVL102:
+  30:Core/Src/quadruped.c **** 
+ 801              		.loc 1 30 13 is_stmt 1 discriminator 3 view .LVU156
+ 802 0058 39EEC11A 		vsub.f32	s2, s19, s2
+ 803              	.LVL103:
+  30:Core/Src/quadruped.c **** 
+ 804              		.loc 1 30 13 is_stmt 0 discriminator 3 view .LVU157
+ 805 005c 79EE600A 		vsub.f32	s1, s18, s1
+ 806              	.LVL104:
+  30:Core/Src/quadruped.c **** 
+ 807              		.loc 1 30 13 discriminator 3 view .LVU158
+ 808 0060 38EEC00A 		vsub.f32	s0, s17, s0
+ 809              	.LVL105:
+  30:Core/Src/quadruped.c **** 
+ 810              		.loc 1 30 13 discriminator 3 view .LVU159
+ 811 0064 FFF7FEFF 		bl	IK
+ 812              	.LVL106:
+  32:Core/Src/quadruped.c ****             float x_hip_foot_2 = (stepListX[i] - quad->legList[leg_i]->reflectionMap[3] * quad->leg
+ 813              		.loc 1 32 9 is_stmt 1 discriminator 3 view .LVU160
+  33:Core/Src/quadruped.c ****             float y_hip_foot_2 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 814              		.loc 1 33 13 discriminator 3 view .LVU161
+  33:Core/Src/quadruped.c ****             float y_hip_foot_2 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 815              		.loc 1 33 63 is_stmt 0 discriminator 3 view .LVU162
+ 816 0068 E868     		ldr	r0, [r5, #12]
+  33:Core/Src/quadruped.c ****             float y_hip_foot_2 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 817              		.loc 1 33 124 discriminator 3 view .LVU163
+ 818 006a D0ED097A 		vldr.32	s15, [r0, #36]
+  33:Core/Src/quadruped.c ****             float y_hip_foot_2 = stepListY[i] - quad->legList[leg_i]->d_torso_hip[1];
+ 819              		.loc 1 33 89 discriminator 3 view .LVU164
+ 820 006e 90ED067A 		vldr.32	s14, [r0, #24]	@ int
+ 821 0072 B8EEC70A 		vcvt.f32.s32	s0, s14
+ 822 0076 20EE270A 		vmul.f32	s0, s0, s15
+ 823              	.LVL107:
+  34:Core/Src/quadruped.c ****             float z_hip_foot_2 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+ 824              		.loc 1 34 13 is_stmt 1 discriminator 3 view .LVU165
+  34:Core/Src/quadruped.c ****             float z_hip_foot_2 =  (stepListZ[i] - quad->legList[leg_i]->reflectionMap[5] * quad->le
+ 825              		.loc 1 34 82 is_stmt 0 discriminator 3 view .LVU166
+ 826 007a D0ED0A0A 		vldr.32	s1, [r0, #40]
+ 827              	.LVL108:
+  35:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_2, y_hip_foot_2, z_hip_foot_2);
+ 828              		.loc 1 35 13 is_stmt 1 discriminator 3 view .LVU167
+  35:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_2, y_hip_foot_2, z_hip_foot_2);
+ 829              		.loc 1 35 125 is_stmt 0 discriminator 3 view .LVU168
+ 830 007e D0ED0B7A 		vldr.32	s15, [r0, #44]
+  35:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_2, y_hip_foot_2, z_hip_foot_2);
+ 831              		.loc 1 35 90 discriminator 3 view .LVU169
+ 832 0082 90ED087A 		vldr.32	s14, [r0, #32]	@ int
+ 833 0086 B8EEC71A 		vcvt.f32.s32	s2, s14
+ 834 008a 21EE271A 		vmul.f32	s2, s2, s15
+ 835              	.LVL109:
+  36:Core/Src/quadruped.c **** 
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 18
+
+
+ 836              		.loc 1 36 13 is_stmt 1 discriminator 3 view .LVU170
+ 837 008e 39EEC11A 		vsub.f32	s2, s19, s2
+ 838              	.LVL110:
+  36:Core/Src/quadruped.c **** 
+ 839              		.loc 1 36 13 is_stmt 0 discriminator 3 view .LVU171
+ 840 0092 79EE600A 		vsub.f32	s1, s18, s1
+ 841              	.LVL111:
+  36:Core/Src/quadruped.c **** 
+ 842              		.loc 1 36 13 discriminator 3 view .LVU172
+ 843 0096 38EEC00A 		vsub.f32	s0, s17, s0
+ 844              	.LVL112:
+  36:Core/Src/quadruped.c **** 
+ 845              		.loc 1 36 13 discriminator 3 view .LVU173
+ 846 009a FFF7FEFF 		bl	IK
+ 847              	.LVL113:
+  40:Core/Src/quadruped.c ****             float x_hip_foot_3 = (stepListX[(i + PositionCount/2)%PositionCount]- quad->legList[leg
+ 848              		.loc 1 40 9 is_stmt 1 discriminator 3 view .LVU174
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 849              		.loc 1 41 13 discriminator 3 view .LVU175
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 850              		.loc 1 41 48 is_stmt 0 discriminator 3 view .LVU176
+ 851 009e 04F11902 		add	r2, r4, #25
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 852              		.loc 1 41 66 discriminator 3 view .LVU177
+ 853 00a2 3449     		ldr	r1, .L25+8
+ 854 00a4 81FB0231 		smull	r3, r1, r1, r2
+ 855 00a8 D317     		asrs	r3, r2, #31
+ 856 00aa C3EB2113 		rsb	r3, r3, r1, asr #4
+ 857 00ae 3221     		movs	r1, #50
+ 858 00b0 01FB1323 		mls	r3, r1, r3, r2
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 859              		.loc 1 41 44 discriminator 3 view .LVU178
+ 860 00b4 08EB8308 		add	r8, r8, r3, lsl #2
+ 861 00b8 D8ED008A 		vldr.32	s17, [r8]
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 862              		.loc 1 41 96 discriminator 3 view .LVU179
+ 863 00bc 6868     		ldr	r0, [r5, #4]
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 864              		.loc 1 41 157 discriminator 3 view .LVU180
+ 865 00be D0ED097A 		vldr.32	s15, [r0, #36]
+  41:Core/Src/quadruped.c ****             float y_hip_foot_3 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 866              		.loc 1 41 122 discriminator 3 view .LVU181
+ 867 00c2 90ED067A 		vldr.32	s14, [r0, #24]	@ int
+ 868 00c6 B8EEC70A 		vcvt.f32.s32	s0, s14
+ 869 00ca 20EE270A 		vmul.f32	s0, s0, s15
+ 870              	.LVL114:
+  42:Core/Src/quadruped.c ****             float z_hip_foot_3 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+ 871              		.loc 1 42 13 is_stmt 1 discriminator 3 view .LVU182
+  42:Core/Src/quadruped.c ****             float z_hip_foot_3 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+ 872              		.loc 1 42 43 is_stmt 0 discriminator 3 view .LVU183
+ 873 00ce 07EB8307 		add	r7, r7, r3, lsl #2
+ 874 00d2 97ED009A 		vldr.32	s18, [r7]
+  42:Core/Src/quadruped.c ****             float z_hip_foot_3 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+ 875              		.loc 1 42 116 discriminator 3 view .LVU184
+ 876 00d6 D0ED0A0A 		vldr.32	s1, [r0, #40]
+ 877              	.LVL115:
+  43:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_3, y_hip_foot_3, z_hip_foot_3);
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 19
+
+
+ 878              		.loc 1 43 13 is_stmt 1 discriminator 3 view .LVU185
+  43:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_3, y_hip_foot_3, z_hip_foot_3);
+ 879              		.loc 1 43 45 is_stmt 0 discriminator 3 view .LVU186
+ 880 00da 06EB8306 		add	r6, r6, r3, lsl #2
+ 881 00de D6ED009A 		vldr.32	s19, [r6]
+  43:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_3, y_hip_foot_3, z_hip_foot_3);
+ 882              		.loc 1 43 159 discriminator 3 view .LVU187
+ 883 00e2 D0ED0B7A 		vldr.32	s15, [r0, #44]
+  43:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_3, y_hip_foot_3, z_hip_foot_3);
+ 884              		.loc 1 43 124 discriminator 3 view .LVU188
+ 885 00e6 90ED087A 		vldr.32	s14, [r0, #32]	@ int
+ 886 00ea B8EEC71A 		vcvt.f32.s32	s2, s14
+ 887 00ee 21EE271A 		vmul.f32	s2, s2, s15
+ 888              	.LVL116:
+  44:Core/Src/quadruped.c **** 
+ 889              		.loc 1 44 13 is_stmt 1 discriminator 3 view .LVU189
+ 890 00f2 39EEC11A 		vsub.f32	s2, s19, s2
+ 891              	.LVL117:
+  44:Core/Src/quadruped.c **** 
+ 892              		.loc 1 44 13 is_stmt 0 discriminator 3 view .LVU190
+ 893 00f6 79EE600A 		vsub.f32	s1, s18, s1
+ 894              	.LVL118:
+  44:Core/Src/quadruped.c **** 
+ 895              		.loc 1 44 13 discriminator 3 view .LVU191
+ 896 00fa 38EEC00A 		vsub.f32	s0, s17, s0
+ 897              	.LVL119:
+  44:Core/Src/quadruped.c **** 
+ 898              		.loc 1 44 13 discriminator 3 view .LVU192
+ 899 00fe FFF7FEFF 		bl	IK
+ 900              	.LVL120:
+  46:Core/Src/quadruped.c ****             float x_hip_foot_4 = (stepListX[(i + PositionCount/2)%PositionCount] - quad->legList[le
+ 901              		.loc 1 46 9 is_stmt 1 discriminator 3 view .LVU193
+  47:Core/Src/quadruped.c ****             float y_hip_foot_4 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 902              		.loc 1 47 13 discriminator 3 view .LVU194
+  47:Core/Src/quadruped.c ****             float y_hip_foot_4 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 903              		.loc 1 47 97 is_stmt 0 discriminator 3 view .LVU195
+ 904 0102 A868     		ldr	r0, [r5, #8]
+  47:Core/Src/quadruped.c ****             float y_hip_foot_4 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 905              		.loc 1 47 158 discriminator 3 view .LVU196
+ 906 0104 D0ED097A 		vldr.32	s15, [r0, #36]
+  47:Core/Src/quadruped.c ****             float y_hip_foot_4 = stepListY[(i + PositionCount/2)%PositionCount] - quad->legList[leg
+ 907              		.loc 1 47 123 discriminator 3 view .LVU197
+ 908 0108 90ED067A 		vldr.32	s14, [r0, #24]	@ int
+ 909 010c B8EEC70A 		vcvt.f32.s32	s0, s14
+ 910 0110 20EE270A 		vmul.f32	s0, s0, s15
+ 911              	.LVL121:
+  48:Core/Src/quadruped.c ****             float z_hip_foot_4 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+ 912              		.loc 1 48 13 is_stmt 1 discriminator 3 view .LVU198
+  48:Core/Src/quadruped.c ****             float z_hip_foot_4 =  (stepListZ[(i + PositionCount/2)%PositionCount] - quad->legList[l
+ 913              		.loc 1 48 116 is_stmt 0 discriminator 3 view .LVU199
+ 914 0114 D0ED0A0A 		vldr.32	s1, [r0, #40]
+ 915              	.LVL122:
+  49:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_4, y_hip_foot_4, z_hip_foot_4);
+ 916              		.loc 1 49 13 is_stmt 1 discriminator 3 view .LVU200
+  49:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_4, y_hip_foot_4, z_hip_foot_4);
+ 917              		.loc 1 49 159 is_stmt 0 discriminator 3 view .LVU201
+ 918 0118 D0ED0B7A 		vldr.32	s15, [r0, #44]
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 20
+
+
+  49:Core/Src/quadruped.c ****             IK(quad->legList[leg_i], x_hip_foot_4, y_hip_foot_4, z_hip_foot_4);
+ 919              		.loc 1 49 124 discriminator 3 view .LVU202
+ 920 011c 90ED087A 		vldr.32	s14, [r0, #32]	@ int
+ 921 0120 B8EEC71A 		vcvt.f32.s32	s2, s14
+ 922 0124 21EE271A 		vmul.f32	s2, s2, s15
+ 923              	.LVL123:
+  50:Core/Src/quadruped.c **** 
+ 924              		.loc 1 50 13 is_stmt 1 discriminator 3 view .LVU203
+ 925 0128 39EEC11A 		vsub.f32	s2, s19, s2
+ 926              	.LVL124:
+  50:Core/Src/quadruped.c **** 
+ 927              		.loc 1 50 13 is_stmt 0 discriminator 3 view .LVU204
+ 928 012c 79EE600A 		vsub.f32	s1, s18, s1
+ 929              	.LVL125:
+  50:Core/Src/quadruped.c **** 
+ 930              		.loc 1 50 13 discriminator 3 view .LVU205
+ 931 0130 38EEC00A 		vsub.f32	s0, s17, s0
+ 932              	.LVL126:
+  50:Core/Src/quadruped.c **** 
+ 933              		.loc 1 50 13 discriminator 3 view .LVU206
+ 934 0134 FFF7FEFF 		bl	IK
+ 935              	.LVL127:
+  54:Core/Src/quadruped.c **** 
+ 936              		.loc 1 54 9 is_stmt 1 discriminator 3 view .LVU207
+ 937 0138 2846     		mov	r0, r5
+ 938 013a FFF7FEFF 		bl	quadMove
+ 939              	.LVL128:
+  57:Core/Src/quadruped.c ****     }
+ 940              		.loc 1 57 9 discriminator 3 view .LVU208
+  57:Core/Src/quadruped.c ****     }
+ 941              		.loc 1 57 27 is_stmt 0 discriminator 3 view .LVU209
+ 942 013e F7EE007A 		vmov.f32	s15, #1.0e+0
+ 943 0142 77EEC87A 		vsub.f32	s15, s15, s16
+  57:Core/Src/quadruped.c ****     }
+ 944              		.loc 1 57 23 discriminator 3 view .LVU210
+ 945 0146 9FED0C7A 		vldr.32	s14, .L25+12
+ 946 014a 67EE877A 		vmul.f32	s15, s15, s14
+  57:Core/Src/quadruped.c ****     }
+ 947              		.loc 1 57 9 discriminator 3 view .LVU211
+ 948 014e FCEEE77A 		vcvt.u32.f32	s15, s15
+ 949 0152 17EE900A 		vmov	r0, s15	@ int
+ 950 0156 FFF7FEFF 		bl	HAL_Delay
+ 951              	.LVL129:
+ 952              	.LBE8:
+  19:Core/Src/quadruped.c ****     
+ 953              		.loc 1 19 42 is_stmt 1 discriminator 3 view .LVU212
+ 954 015a 0134     		adds	r4, r4, #1
+ 955              	.LVL130:
+ 956              	.L22:
+  19:Core/Src/quadruped.c ****     
+ 957              		.loc 1 19 23 discriminator 1 view .LVU213
+ 958 015c 312C     		cmp	r4, #49
+ 959 015e 7FF758AF 		ble	.L23
+ 960              	.LBE7:
+  59:Core/Src/quadruped.c **** 
+ 961              		.loc 1 59 1 is_stmt 0 view .LVU214
+ 962 0162 BDEC048B 		vldm	sp!, {d8-d9}
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 21
+
+
+ 963              	.LCFI12:
+ 964              		.cfi_restore 82
+ 965              		.cfi_restore 83
+ 966              		.cfi_restore 80
+ 967              		.cfi_restore 81
+ 968              		.cfi_def_cfa_offset 24
+ 969              	.LVL131:
+  59:Core/Src/quadruped.c **** 
+ 970              		.loc 1 59 1 view .LVU215
+ 971 0166 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 972              	.LVL132:
+ 973              	.L26:
+  59:Core/Src/quadruped.c **** 
+ 974              		.loc 1 59 1 view .LVU216
+ 975 016a 00BF     		.align	2
+ 976              	.L25:
+ 977 016c 00000000 		.word	stepListY
+ 978 0170 00000000 		.word	stepListZ
+ 979 0174 1F85EB51 		.word	1374389535
+ 980 0178 0000C842 		.word	1120403456
+ 981 017c 00000000 		.word	stepListX
+ 982              		.cfi_endproc
+ 983              	.LFE142:
+ 985              		.text
+ 986              	.Letext0:
+ 987              		.file 2 "C:\\ST\\STM32CubeCLT_1.17.0\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/12.3.1/../
+ 988              		.file 3 "C:\\ST\\STM32CubeCLT_1.17.0\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/12.3.1/../
+ 989              		.file 4 "Core/Inc/motor.h"
+ 990              		.file 5 "Core/Inc/argos_parameters.h"
+ 991              		.file 6 "Core/Inc/leg.h"
+ 992              		.file 7 "Core/Inc/quadruped.h"
+ 993              		.file 8 "C:\\ST\\STM32CubeCLT_1.17.0\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/12.3.1/../
+ 994              		.file 9 "Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h"
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s 			page 22
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 quadruped.c
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:21     .text.quadHome:00000000 $t
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:27     .text.quadHome:00000000 quadHome
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:72     .text.quadPositionIncrement:00000000 $t
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:78     .text.quadPositionIncrement:00000000 quadPositionIncrement
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:150    .text.quadPositionIncrement:00000044 $d
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:161    .text.quadRPYcontrol:00000000 $t
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:167    .text.quadRPYcontrol:00000000 quadRPYcontrol
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:274    .text.quadRPYcontrol:00000078 $d
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:282    .text.quadRPYcontrol:00000084 $t
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:671    .text.quadMove:00000000 $t
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:677    .text.quadMove:00000000 quadMove
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:722    .text.quadWalk:00000000 $t
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:728    .text.quadWalk:00000000 quadWalk
+C:\Users\benny\AppData\Local\Temp\ccvMTXHS.s:977    .text.quadWalk:0000016c $d
+
+UNDEFINED SYMBOLS
+home
+legPositionIncrement
+moveLeg
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_ddiv
+__aeabi_d2f
+__aeabi_dsub
+__aeabi_dadd
+cos
+sin
+IK
+HAL_Delay
+stepListY
+stepListZ
+stepListX

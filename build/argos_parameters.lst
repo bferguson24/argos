@@ -1,0 +1,209 @@
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccnihn0W.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"argos_parameters.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/argos_parameters.c"
+  20              		.global	stepListZ
+  21              		.section	.rodata.stepListZ,"a"
+  22              		.align	2
+  25              	stepListZ:
+  26 0000 9A99B742 		.word	1119328666
+  27 0004 9A99B742 		.word	1119328666
+  28 0008 9A99B742 		.word	1119328666
+  29 000c 9A99B742 		.word	1119328666
+  30 0010 9A99B742 		.word	1119328666
+  31 0014 9A99B742 		.word	1119328666
+  32 0018 9A99B742 		.word	1119328666
+  33 001c 9A99B742 		.word	1119328666
+  34 0020 9A99B742 		.word	1119328666
+  35 0024 9A99B742 		.word	1119328666
+  36 0028 9A99B742 		.word	1119328666
+  37 002c 9A99B742 		.word	1119328666
+  38 0030 9A99B742 		.word	1119328666
+  39 0034 9A99B742 		.word	1119328666
+  40 0038 9A99B742 		.word	1119328666
+  41 003c 9A99B742 		.word	1119328666
+  42 0040 9A99B742 		.word	1119328666
+  43 0044 9A99B742 		.word	1119328666
+  44 0048 9A99B742 		.word	1119328666
+  45 004c 9A99B742 		.word	1119328666
+  46 0050 9A99B742 		.word	1119328666
+  47 0054 9A99B742 		.word	1119328666
+  48 0058 9A99B742 		.word	1119328666
+  49 005c 9A99B742 		.word	1119328666
+  50 0060 9A99B742 		.word	1119328666
+  51 0064 9A99B742 		.word	1119328666
+  52 0068 9A99B742 		.word	1119328666
+  53 006c 9A99B742 		.word	1119328666
+  54 0070 9A99B742 		.word	1119328666
+  55 0074 9A99B742 		.word	1119328666
+  56 0078 9A99B742 		.word	1119328666
+  57 007c 9A99B742 		.word	1119328666
+  58 0080 9A99B742 		.word	1119328666
+  59 0084 9A99B742 		.word	1119328666
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccnihn0W.s 			page 2
+
+
+  60 0088 9A99B742 		.word	1119328666
+  61 008c 9A99B742 		.word	1119328666
+  62 0090 9A99B742 		.word	1119328666
+  63 0094 9A99B742 		.word	1119328666
+  64 0098 9A99B742 		.word	1119328666
+  65 009c 9A99B742 		.word	1119328666
+  66 00a0 9A99B742 		.word	1119328666
+  67 00a4 9A99B742 		.word	1119328666
+  68 00a8 9A99B742 		.word	1119328666
+  69 00ac 9A99B742 		.word	1119328666
+  70 00b0 9A99B742 		.word	1119328666
+  71 00b4 9A99B742 		.word	1119328666
+  72 00b8 9A99B742 		.word	1119328666
+  73 00bc 9A99B742 		.word	1119328666
+  74 00c0 9A99B742 		.word	1119328666
+  75 00c4 9A99B742 		.word	1119328666
+  76              		.global	stepListY
+  77              		.section	.rodata.stepListY,"a"
+  78              		.align	2
+  81              	stepListY:
+  82 0000 FC891143 		.word	1125222908
+  83 0004 3B5F1143 		.word	1125211963
+  84 0008 79E91043 		.word	1125181817
+  85 000c 711D1043 		.word	1125129585
+  86 0010 7FEA0E43 		.word	1125051007
+  87 0014 B83E0D43 		.word	1124941496
+  88 0018 71FD0A43 		.word	1124793713
+  89 001c 73080843 		.word	1124599923
+  90 0020 BA290443 		.word	1124346298
+  91 0024 6A3CFE42 		.word	1123957866
+  92 0028 B21DF142 		.word	1123098034
+  93 002c 8155E042 		.word	1121998209
+  94 0030 231BCF42 		.word	1120869155
+  95 0034 0040CB42 		.word	1120616448
+  96 0038 89C1DA42 		.word	1121632649
+  97 003c 44CBEC42 		.word	1122814788
+  98 0040 7368FB42 		.word	1123772531
+  99 0044 00400343 		.word	1124286464
+ 100 0048 C3750743 		.word	1124562371
+ 101 004c 66A60A43 		.word	1124771430
+ 102 0050 EC110D43 		.word	1124930028
+ 103 0054 D5D80E43 		.word	1125046485
+ 104 0058 B21D1043 		.word	1125129650
+ 105 005c BCF41043 		.word	1125184700
+ 106 0060 DF6F1143 		.word	1125216223
+ 107 0064 FC891143 		.word	1125222908
+ 108 0068 FC891143 		.word	1125222908
+ 109 006c FC891143 		.word	1125222908
+ 110 0070 FC891143 		.word	1125222908
+ 111 0074 FC891143 		.word	1125222908
+ 112 0078 FC891143 		.word	1125222908
+ 113 007c FC891143 		.word	1125222908
+ 114 0080 FC891143 		.word	1125222908
+ 115 0084 FC891143 		.word	1125222908
+ 116 0088 FC891143 		.word	1125222908
+ 117 008c FC891143 		.word	1125222908
+ 118 0090 FC891143 		.word	1125222908
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccnihn0W.s 			page 3
+
+
+ 119 0094 FC891143 		.word	1125222908
+ 120 0098 FC891143 		.word	1125222908
+ 121 009c FC891143 		.word	1125222908
+ 122 00a0 FC891143 		.word	1125222908
+ 123 00a4 FC891143 		.word	1125222908
+ 124 00a8 FC891143 		.word	1125222908
+ 125 00ac FC891143 		.word	1125222908
+ 126 00b0 FC891143 		.word	1125222908
+ 127 00b4 FC891143 		.word	1125222908
+ 128 00b8 FC891143 		.word	1125222908
+ 129 00bc FC891143 		.word	1125222908
+ 130 00c0 FC891143 		.word	1125222908
+ 131 00c4 FC891143 		.word	1125222908
+ 132              		.global	stepListX
+ 133              		.section	.rodata.stepListX,"a"
+ 134              		.align	2
+ 137              	stepListX:
+ 138 0000 CB012B43 		.word	1126891979
+ 139 0004 E5F02A43 		.word	1126887653
+ 140 0008 4EC22A43 		.word	1126875726
+ 141 000c 4A6C2A43 		.word	1126853706
+ 142 0010 AEE72943 		.word	1126819758
+ 143 0014 8F222943 		.word	1126769295
+ 144 0018 0E0D2843 		.word	1126698254
+ 145 001c DB792643 		.word	1126595035
+ 146 0020 F43D2443 		.word	1126448628
+ 147 0024 FEF42043 		.word	1126233342
+ 148 0028 7DDF1B43 		.word	1125900157
+ 149 002c B27D1343 		.word	1125350834
+ 150 0030 EC710443 		.word	1124364780
+ 151 0034 7969DC42 		.word	1121741177
+ 152 0038 4220B842 		.word	1119363138
+ 153 003c 8F82A342 		.word	1118012047
+ 154 0040 3FB59742 		.word	1117238591
+ 155 0044 12439042 		.word	1116750610
+ 156 0048 504D8B42 		.word	1116425552
+ 157 004c B8DE8742 		.word	1116200632
+ 158 0050 CD8C8542 		.word	1116048589
+ 159 0054 73E88342 		.word	1115940979
+ 160 0058 62D08242 		.word	1115869282
+ 161 005c AC1C8242 		.word	1115823276
+ 162 0060 E7BB8142 		.word	1115798503
+ 163 0064 CDCC8142 		.word	1115802829
+ 164 0068 06C18242 		.word	1115865350
+ 165 006c 21708542 		.word	1116041249
+ 166 0070 A8C68942 		.word	1116325544
+ 167 0074 91AD8F42 		.word	1116712337
+ 168 0078 3D0A9742 		.word	1117194813
+ 169 007c FABE9F42 		.word	1117765370
+ 170 0080 FCA9A942 		.word	1118415356
+ 171 0084 5AA4B442 		.word	1119134810
+ 172 0088 A285C042 		.word	1119913378
+ 173 008c 4220CD42 		.word	1120739394
+ 174 0090 1944DA42 		.word	1121600537
+ 175 0094 FABEE742 		.word	1122483962
+ 176 0098 A05AF542 		.word	1123375776
+ 177 009c 21700143 		.word	1124167713
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccnihn0W.s 			page 4
+
+
+ 178 00a0 C70B0843 		.word	1124600775
+ 179 00a4 96630E43 		.word	1125016470
+ 180 00a8 A65B1443 		.word	1125407654
+ 181 00ac 8DD71943 		.word	1125767053
+ 182 00b0 ACBC1E43 		.word	1126087852
+ 183 00b4 62F02243 		.word	1126363234
+ 184 00b8 5E5A2643 		.word	1126586974
+ 185 00bc D7E32843 		.word	1126753239
+ 186 00c0 4C772A43 		.word	1126856524
+ 187 00c4 CB012B43 		.word	1126891979
+ 188              		.text
+ 189              	.Letext0:
+ 190              		.file 2 "Core/Inc/argos_parameters.h"
+ARM GAS  C:\Users\benny\AppData\Local\Temp\ccnihn0W.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 argos_parameters.c
+C:\Users\benny\AppData\Local\Temp\ccnihn0W.s:25     .rodata.stepListZ:00000000 stepListZ
+C:\Users\benny\AppData\Local\Temp\ccnihn0W.s:22     .rodata.stepListZ:00000000 $d
+C:\Users\benny\AppData\Local\Temp\ccnihn0W.s:81     .rodata.stepListY:00000000 stepListY
+C:\Users\benny\AppData\Local\Temp\ccnihn0W.s:78     .rodata.stepListY:00000000 $d
+C:\Users\benny\AppData\Local\Temp\ccnihn0W.s:137    .rodata.stepListX:00000000 stepListX
+C:\Users\benny\AppData\Local\Temp\ccnihn0W.s:134    .rodata.stepListX:00000000 $d
+
+NO UNDEFINED SYMBOLS
