@@ -272,53 +272,26 @@ int main(void)
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
 
-//Quad inits
+  HAL_ADC_Start(&hadc1);
+
+
+  //Quad inits
   PCA9685_Init();
   PCA9685_SetPWMFrequency(50);
-
-
   quadHome(&argos);
   
 
-  // quadWalk(&argos, 0.5);
-  // quadRPYcontrol(&argos, 0,0,0);
-
-  //Etc
 
 
-// home(&leg1);
-  // motorSetAngle(&motor1, 90);
-  // motorSetAngle(&motor2, 90);
-  // motorSetAngle(&motor3, 90);
-
-
-
-  //   motorSetAngle(&motor7, 90);
-  // motorSetAngle(&motor8, 90);
-  // motorSetAngle(&motor9, 90);
-
-  // motorSetAngle(&motor10, 90);
-  // motorSetAngle(&motor11, 90);
-  // motorSetAngle(&motor12, 90);
-
-
-    HAL_ADC_Start(&hadc1);
-
-
-//PRINT STATEMENTS
+  //PRINT STATEMENTS
   //ADC Data Array Declarations
   uint16_t adcValues_raw[3];
   float adcValues_clipped[3];
 
 
-float d_roll;
-float d_pitch;
-float d_yaw;
-
-
-float dx; 
-float dy; 
-float dz; 
+  float dx; 
+  float dy; 
+  float dz; 
 
 
   //Serial Buffer
@@ -341,44 +314,20 @@ float dz;
     }
   HAL_ADC_Stop(&hadc1);
 
-//Clip/Scale
-analogClipSet(adcValues_raw, adcValues_clipped, 50, 3,3.0); 
+  //Clip/Scale
+    analogClipSet(adcValues_raw, adcValues_clipped, 50, 3,3.0); 
 
-//Testing Values
-// d_roll = adcValues_clipped[0] + d_roll; 
-// d_pitch = adcValues_clipped[1] + d_pitch;
-// d_yaw = adcValues_clipped[2] + d_yaw;
-
-dx = adcValues_clipped[0]; 
-dy = adcValues_clipped[1];
-dz = 0;
-
-// quadRPYcontrol(&argos, -d_roll, d_pitch, d_yaw);
-// quadMove(&argos);
-
-// quadWalk(&argos, 0.5);
+  //Testing Values
+    dx = adcValues_clipped[0]; 
+    dy = adcValues_clipped[1];
+    dz = adcValues_clipped[2];
 
 
-// quadWalk(&argos, 0.9);
+  //Demo Walk Cycle
+  quadWalk(&argos, 0.5); 
 
 
-legPositionIncrement(&leg1,dy, 0, dx, 40);
-moveLeg(&leg1);
-
-  // sprintf(messageBuffer, "roll = %.2f          pitch = %.2f       raw = %.2f  \n\r", d_roll, d_pitch, d_yaw);
-
-
-//bunch of bs 
-// Calculte and execute command;
-
-
-// quadRPYcontrol(&argos, adcValues_clipped[0], adcValues_clipped[1], adcValues_clipped[2]);
-// quadPositionIncrement(&argos, adcValues_clipped[0], adcValues_clipped[1], adcValues_clipped[2]);
-// quadMove(&argos);
-
-
-// // Serial Print dx /dy /dz 
-  // sprintf(messageBuffer, "roll = %.2f          pitch = %.2f       raw = %.2f  \n\r", d_roll, d_pitch, d_yaw);
+  // // Serial Print dx /dy /dz 
   sprintf(messageBuffer, "dx = %.2f          dy = %.2f       dz = %.2f  \n\r", dx, dy, dz);
   HAL_UART_Transmit(&huart6,  (const uint8_t*)messageBuffer, strlen(messageBuffer), 10);
 
